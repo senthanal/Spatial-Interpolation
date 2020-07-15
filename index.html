@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>NavVis</title>
+</head>
+
+<body>
+    <h1>Task1 - Javascript Code Challenge!</h1>
+    <h3>Functional Requirements</h3>
+    <ul>
+        <li>Load a csv file through file browser</li>
+        <li>Delimiter can be either space or a single comma</li>
+        <li>The csv file contains 2D matrix of numbers(cartesian or spatial?)</li>
+        <li>Display the content in a text box or table.</li>
+        <li>Replace bad zero values by interpolating with spatial neighbours</li>
+        <li>Write the result in another text box or table.</li>
+    </ul>
+    <form name="uploadForm">
+        <div>
+            <input id="uploadInput" type="file" name="myFiles" accept=".csv">
+        </div>
+        <div>
+            <input type="submit" value="Process">
+        </div>
+    </form>
+    <div>File size: <span id="fileSize">0</span></div>
+    <div>Total Records: <span id="totalRecords">0</span></div>
+    <div id="inputCsvTable"></div>
+    <script src="FileLoader.js"></script>
+    <script src="ContentUtils.js"></script>
+    <script src="ReaderCsv.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
