@@ -23,4 +23,8 @@ class ContentUtils {
     static updateTotalRecords(totalRecords) {
         document.getElementById("totalRecords").innerHTML = totalRecords;
     }
+
+    static updateFileSize(file) {
+        document.getElementById("fileSize").innerHTML = ContentUtils.humanReadableFileSize(file.size);
+    }
 }
