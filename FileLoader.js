@@ -27,7 +27,7 @@ class FileLoader {
         ContentUtils.updateElementContent("fileSize", ContentUtils.humanReadableFileSize(this.file.size)); // 4. Update html content for file size
         ContentUtils.updateElementContent("totalRecords", parsedCsvData.records.length); // 5. Update html content for total number of records count
         ContentUtils.renderTable("Input Records", "inputCsvTable", parsedCsvData.records, parsedCsvData.columns); // 6. Update html content for input records table
-        let badRecords = Calculate.findBadRecords(parsedCsvData.records); // 7. Filter the bad records when atleast one of the point coordine is zero
+        let badRecords = Calculate.findBadRecords(parsedCsvData.records); // 7. Filter the bad records when the value field is zero
         ContentUtils.updateElementContent("badRecords", badRecords.length); // 8. Update html content for number of bad recods count
         ContentUtils.renderTable("Bad Records", "badCsvTable", badRecords, parsedCsvData.columns); // 9. Update html content for bad recods table
         this.interpolate(parsedCsvData.records, badRecords, parsedCsvData.columns); // 10. Spatially interpolated bad recods from the given valid records
