@@ -1,42 +1,52 @@
 class FileLoader {
+    /**
+     * Takes html5 file object as argument
+     * @param {object} file 
+     */
     constructor(file) {
         this.file = file;
-        this.records = null;
-        this.badRecords = null;
         this.csvReader = new ReaderCsv();
     }
 
+    /**
+     * Listener function which supplied with uploaded file object file upload event. 
+     * Initiates the interpolation process for bad records.
+     */
     loadFile() {
-        this.csvReader.readFromFile(this.file).then((result) => {
-            this.updateCsvData(result);
-            ContentUtils.updateFileSize(this.file);
-            ContentUtils.updateTotalRecords(this.records.length);
-            ContentUtils.renderTable("Input Records", "inputCsvTable", this.records);
-            this.badRecords = Calculate.findBadRecords(this.records);
-            ContentUtils.renderTable("Bad Records", "badCsvTable", this.badRecords);
-            let spatialNeighborForBadRecords = Calculate.findSpatialNeighbors(this.records, this.badRecords);
-            console.log(spatialNeighborForBadRecords);
-            let interpolatedRecords = spatialNeighborForBadRecords.map((data) => Calculate.interpolateBadRecord(
-                data.badRecord,
-                data.spatialNeighbors
-            ));
-            console.log(interpolatedRecords);
-            this.records.forEach((record) => {
-                let interpolatedRecord = interpolatedRecords.find((interpolatedRecord) => interpolatedRecord.id === record[0]);
-                if (interpolatedRecord) {
-                    record[1] = interpolatedRecord.x;
-                    record[2] = interpolatedRecord.y;
-                }
-            });
-            ContentUtils.renderTable("Interpolated Records", "interpolatedCsvTable", this.records);
-        });
+        this.csvReader.readFromFile(this.file).then((result) => this.process(result));
     }
 
-    updateCsvData(result) {
-        let resultRows = result.split("\n");
-        this.records = resultRows.map((row) => row.split(",").map((data) => {
-            return isNaN(Number(data)) ? data : Number(data);
-        }));
+    /**
+     * Business logic: Spatial interpolation
+     * @param {string} result 
+     */
+    process(result) {
+        let parsedCsvData = ReaderCsv.parse(result); // 1. Parse the csv data
+        ContentUtils.updateElementContent("delimiter", parsedCsvData.delimiter); // 2. Update html content for delimiter
+        ContentUtils.updateElementContent("hasHeaderRow", parsedCsvData.hasHeaderRow); // 3. Update html content for has header row
+        ContentUtils.updateElementContent("fileSize", ContentUtils.humanReadableFileSize(this.file.size)); // 4. Update html content for file size
+        ContentUtils.updateElementContent("totalRecords", parsedCsvData.records.length); // 5. Update html content for total number of records count
+        ContentUtils.renderTable("Input Records", "inputCsvTable", parsedCsvData.records, parsedCsvData.columns); // 6. Update html content for input records table
+        let badRecords = Calculate.findBadRecords(parsedCsvData.records); // 7. Filter the bad records when atleast one of the point coordine is zero
+        ContentUtils.updateElementContent("badRecords", badRecords.length); // 8. Update html content for number of bad recods count
+        ContentUtils.renderTable("Bad Records", "badCsvTable", badRecords, parsedCsvData.columns); // 9. Update html content for bad recods table
+        this.interpolate(parsedCsvData.records, badRecords, parsedCsvData.columns); // 10. Spatially interpolated bad recods from the given valid records
     }
 
+    /**
+     * Compute spatial interpolation for bad records.
+     * @param {array<array>} records 
+     * @param {array<array>} badRecords 
+     * @param {array<string>} headerColumns 
+     */
+    interpolate(records, badRecords, headerColumns) {
+        let validRecords = records.filter((record) => badRecords.indexOf(record) === -1); // 1. Filter valid records by removing bad records
+        let badRecordsWithSpatialNeighbors = Calculate.findSpatialNeighbors(validRecords, badRecords, 2); // 2. Find the two closest valid points to the bad records
+        let interpolatedRecords = badRecordsWithSpatialNeighbors.map((data) => Calculate.interpolateBadRecord(
+            data.badRecord,
+            data.spatialNeighbors
+        )); // 3. Calculate the interpolated values for bad records based on the two closest points
+        let finalRecords = [...new Set([...records, ...interpolatedRecords])]; // 4. Update the interpolated values into the original records
+        ContentUtils.renderTable("Interpolated Records", "interpolatedCsvTable", finalRecords, headerColumns); // 5. Print the final interpolated recods
+    }
 }

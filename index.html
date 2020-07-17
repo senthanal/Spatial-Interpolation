@@ -18,32 +18,51 @@
     <meta name="owner" content="Senthanal Sirpi Manohar">
     <meta charset="UTF-8">
     <title>Spatial Interpolation</title>
+    <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Inverse Distance Weighting (IDW) Interpolation</h1>
-    <h3>Functional Requirements</h3>
-    <ul>
-        <li>Load a csv file through file browser</li>
-        <li>Delimiter can be either space or a single comma</li>
-        <li>The csv file contains 2D matrix of numbers(cartesian or spatial?)</li>
-        <li>Display the content in a text box or table.</li>
-        <li>Replace bad zero values by interpolating with spatial neighbours</li>
-        <li>Write the result in another text box or table.</li>
-    </ul>
-    <form name="uploadForm">
-        <div>
-            <input id="uploadInput" type="file" name="myFiles" accept=".csv">
-        </div>
-        <div>
-            <input type="submit" value="Process">
-        </div>
-    </form>
-    <div>File size: <span id="fileSize">0</span></div>
-    <div>Total Records: <span id="totalRecords">0</span></div>
-    <div id="inputCsvTable"></div>
-    <div id="badCsvTable"></div>
-    <div id="interpolatedCsvTable"></div>
+    <header>
+        <h1>Inverse Distance Weighting (IDW) Interpolation</h1>
+    </header>
+    <section class="full-width">
+        <h3 class="full-width">Functional Requirements</h3>
+        <ul class="full-width">
+            <li>Load a csv file through file browser</li>
+            <li>Delimiter can be either <b>space</b> or a <b>single comma</b></li>
+            <li>The csv file contains 2D matrix of numbers(with column structure as |x-coord, y-coord, value|)</li>
+            <li>Display the content in a text box or table.</li>
+            <li>Replace bad zero values by interpolating with spatial neighbours</li>
+            <li>Write the result in another text box or table.</li>
+        </ul>
+    </section>
+    <section>
+        <article>
+            <form name="uploadForm">
+                <input id="uploadInput" type="file" accept=".csv">
+            </form>
+            <div>Delimiter: <span id="delimiter">?</span></div>
+            <div>Has header row: <span id="hasHeaderRow">?</span></div>
+            <div>File size: <span id="fileSize">0</span></div>
+            <div>Total records: <span id="totalRecords">0</span></div>
+            <div>No.of bad records: <span id="badRecords">0</span></div>
+        </article>
+        <aside>
+            <div id="inputCsvTable"></div>
+        </aside>
+        <aside>
+            <div id="badCsvTable"></div>
+        </aside>
+        <aside>
+            <div id="interpolatedCsvTable"></div>
+        </aside>
+    </section>
+
+    <footer>
+        <div>&copy; Copyright 2020 Senthanal Sirpi Manohar</div>
+        <div>Disclaimer: <a href="https://gisgeography.com/inverse-distance-weighting-idw-interpolation/" target="_blank">GISGeography</a></div>
+    </footer>
+
     <script src="Calculate.js"></script>
     <script src="FileLoader.js"></script>
     <script src="ContentUtils.js"></script>

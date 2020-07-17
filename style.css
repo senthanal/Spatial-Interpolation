@@ -1,0 +1,55 @@
+body {
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+header,
+footer,
+.full-width {
+    flex: 1 100%;
+}
+
+section {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+section>article {
+    flex: 1 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+section>article>div {
+    padding: 10px;
+}
+
+section>aside {
+    flex: 2 auto;
+    padding: 10px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table>caption {
+    padding: 10px;
+}
+
+table>thead>tr>th {
+    text-align: left;
+    padding: 10px;
+}
+
+table>tbody>tr>td {
+    padding: 10px;
+}
+
+table>thead>tr,
+table>tbody>tr {
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+}
