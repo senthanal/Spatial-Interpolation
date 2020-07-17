@@ -4,5 +4,4 @@ document.getElementById("uploadInput").addEventListener("change", onChange, fals
 function onChange() {
     let fileLoader = new FileLoader(this.files[0]);
     fileLoader.loadFile();
-    fileLoader.updateFileSize();
 }

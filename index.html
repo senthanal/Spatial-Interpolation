@@ -2,12 +2,26 @@
 <html>
 
 <head>
+    <meta name="keywords" content="spatial, interpolation, gis, programming, javascript, html5" />
+    <meta name="description" content="Spatial interpolation and its variants" />
+    <meta name="subject" content="Learning">
+    <meta name="language" content="EN">
+    <meta name="robots" content="index,follow" />
+    <meta name="revised" content="Sunday, July 19th, 2020, 5:15 pm" />
+    <meta name="abstract" content="Spatial interpolation">
+    <meta name="topic" content="Spatial interpolation">
+    <meta name="summary" content="Spatial interpolation">
+    <meta name="Classification" content="Tutorial">
+    <meta name="author" content="Senthanal Sirpi Manohar">
+    <meta name="designer" content="Senthanal Sirpi Manohar">
+    <meta name="copyright" content="&copy; Copyright 2020 Senthanal Sirpi Manohar">
+    <meta name="owner" content="Senthanal Sirpi Manohar">
     <meta charset="UTF-8">
-    <title>NavVis</title>
+    <title>Spatial Interpolation</title>
 </head>
 
 <body>
-    <h1>Task1 - Javascript Code Challenge!</h1>
+    <h1>Inverse Distance Weighting (IDW) Interpolation</h1>
     <h3>Functional Requirements</h3>
     <ul>
         <li>Load a csv file through file browser</li>
@@ -29,6 +43,8 @@
     <div>Total Records: <span id="totalRecords">0</span></div>
     <div id="inputCsvTable"></div>
     <div id="badCsvTable"></div>
+    <div id="interpolatedCsvTable"></div>
+    <script src="Calculate.js"></script>
     <script src="FileLoader.js"></script>
     <script src="ContentUtils.js"></script>
     <script src="ReaderCsv.js"></script>
