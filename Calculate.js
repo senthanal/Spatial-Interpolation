@@ -5,9 +5,31 @@ class Calculate {
      * Calculates cartesian distance between two points
      * @param {array<number>} p1 
      * @param {array<number>} p2 
+     * @returns {number} Distance
      */
-    static distance(p1, p2) {
-        return Math.sqrt(Math.pow(p2[1] - p1[1], 2) + Math.pow(p2[2] - p1[2], 2));
+    static cartesianDistance(p1, p2) {
+        return Math.sqrt(Math.pow(p2[0] - p1[0], 2) + Math.pow(p2[1] - p1[1], 2));
+    }
+
+    /**
+     * Calculates the earth distance between two coordinates.
+     * Shamelessly stolen from https://www.movable-type.co.uk/scripts/latlong.html
+     * @param {array<number>} p1 
+     * @param {array<number>} p2 
+     * @returns {number} Distance
+     */
+    static earthDistance(p1, p2) {
+        const R = 6371e3; // metres
+        const φ1 = p1[1] * Math.PI / 180; // φ, λ in radians
+        const φ2 = p2[1] * Math.PI / 180;
+        const Δφ = (p2[1] - p1[1]) * Math.PI / 180;
+        const Δλ = (p2[0] - p1[0]) * Math.PI / 180;
+        const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c; // Distance in metres
     }
 
     /**
@@ -50,7 +72,7 @@ class Calculate {
                     .map((vRecord) => { // 1.Find distance between current bad record to a valid record
                         return {
                             point: vRecord,
-                            distance: Calculate.distance(record, vRecord)
+                            distance: Calculate.earthDistance(record, vRecord) // Default we use earth distance math to compute distance
                         };
                     })
                     .sort(function(a, b) { // 2.Sort by least distance(closest point) to the bad record from the valid records
