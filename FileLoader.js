@@ -33,7 +33,7 @@ class FileLoader {
             ContentUtils.renderTable("Bad Records", "badCsvTable", badRecords, parsedCsvData.columns); // 9. Update html content for bad recods table
             this.interpolate(parsedCsvData.records, badRecords, parsedCsvData.columns); // 10. Spatially interpolated bad recods from the given valid records
         } else {
-            ContentUtils.updateElementContent("invalidData", "The uploaded file contains either missing data or invalid data! Please check the file and upload again!!");
+            ContentUtils.updateElementContent("invalidData", "The uploaded file contains either duplicated locations or missing data or invalid data! Please check the file and upload again!!");
         }
     }
 

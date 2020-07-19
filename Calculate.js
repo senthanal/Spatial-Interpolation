@@ -19,7 +19,7 @@ class Calculate {
      * @returns {number} Distance
      */
     static earthDistance(p1, p2) {
-        const R = 6371e3; // metres
+        const R = 6378000; // metres
         const φ1 = p1[1] * Math.PI / 180; // φ, λ in radians
         const φ2 = p2[1] * Math.PI / 180;
         const Δφ = (p2[1] - p1[1]) * Math.PI / 180;
@@ -75,7 +75,7 @@ class Calculate {
                             distance: Calculate.earthDistance(record, vRecord) // Default we use earth distance math to compute distance
                         };
                     })
-                    .sort(function(a, b) { // 2.Sort by least distance(closest point) to the bad record from the valid records
+                    .sort(function (a, b) { // 2.Sort by least distance(closest point) to the bad record from the valid records
                         return a.distance - b.distance;
                     })
                     .slice(0, closestPointsCount) // 3.Take only the given number of closest points
