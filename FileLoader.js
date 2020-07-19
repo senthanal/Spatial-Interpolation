@@ -67,7 +67,5 @@ class FileLoader {
         ContentUtils.updateElementContent("badCsvTable", "");
         ContentUtils.updateElementContent("interpolatedCsvTable", "");
         ContentUtils.updateElementContent("invalidData", "");
-        this.file = null;
-        this.csvReader = null;
     }
 }

@@ -8,6 +8,7 @@ document.getElementById("reset").addEventListener("click", onReset, false);
  */
 function onChange() {
     fileLoader = new FileLoader(this.files[0]);
+    fileLoader.resetFormContent();
     fileLoader.loadFile();
 }
 
