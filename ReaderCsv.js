@@ -28,7 +28,7 @@ class ReaderCsv {
             delimiter: headerRow.split(/\t|\s/).length === 3 ? "Space" : headerRow.split(/,/).length === 3 ? "Comma" : false
         });
         if (csvData.delimiter) { // Proceed further only when a valid delimiter is found
-            let splitRegEx = delimiter === "Space" ? /\t|\s/ : /,/; // Regex for tab space or comma csv separator
+            let splitRegEx = csvData.delimiter === "Space" ? /\t|\s/ : /,/; // Regex for tab space or comma csv separator
             csvData = Object.assign(csvData, { // Has header row only when the first row contains textual information
                 hasHeaderRow: headerRow.split(splitRegEx).map((data) => isNaN(data)).length === 3
             });
