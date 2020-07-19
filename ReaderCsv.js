@@ -38,9 +38,17 @@ class ReaderCsv {
                 });
             }
             csvData = Object.assign(csvData, { // Collect rows/records from the csv 
-                records: resultRows.slice(1).map((row) => row.split(splitRegEx).map((data) => {
-                    return isNaN(Number(data)) ? data : Number(data); // Parse values from string to number type
-                }))
+                records: resultRows.slice(1)
+                    .filter((row) => /^\s*$/.test(row) === false) // Allow only non empty lines
+                    .map((row) => {
+                        let split = row.split(splitRegEx);
+                        return split.length !== 3 ? false : row.split(splitRegEx).map((data) => { // Mark row with insufficient data as false
+                            return isNaN(Number(data.trim())) ? data.trim() : Number(data.trim()); // Parse values from string to number type
+                        });
+                    })
+            });
+            csvData = Object.assign(csvData, { // Check for insufficient data in a row
+                isValidData: csvData.records.indexOf(false) === -1
             });
         }
         return csvData;

@@ -30,6 +30,11 @@ section>article>div>form {
     padding: 10px 0;
 }
 
+section>#invalidData{
+    color: red;
+    padding: 10px;
+}
+
 section>aside {
     flex: 2 auto;
     padding: 10px;

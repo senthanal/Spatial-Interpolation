@@ -22,15 +22,19 @@ class FileLoader {
      */
     process(result) {
         let parsedCsvData = ReaderCsv.parse(result); // 1. Parse the csv data
-        ContentUtils.updateElementContent("delimiter", parsedCsvData.delimiter); // 2. Update html content for delimiter
-        ContentUtils.updateElementContent("hasHeaderRow", parsedCsvData.hasHeaderRow); // 3. Update html content for has header row
-        ContentUtils.updateElementContent("fileSize", ContentUtils.humanReadableFileSize(this.file.size)); // 4. Update html content for file size
-        ContentUtils.updateElementContent("totalRecords", parsedCsvData.records.length); // 5. Update html content for total number of records count
-        ContentUtils.renderTable("Input Records", "inputCsvTable", parsedCsvData.records, parsedCsvData.columns); // 6. Update html content for input records table
-        let badRecords = Calculate.findBadRecords(parsedCsvData.records); // 7. Filter the bad records when the value field is zero
-        ContentUtils.updateElementContent("badRecords", badRecords.length); // 8. Update html content for number of bad recods count
-        ContentUtils.renderTable("Bad Records", "badCsvTable", badRecords, parsedCsvData.columns); // 9. Update html content for bad recods table
-        this.interpolate(parsedCsvData.records, badRecords, parsedCsvData.columns); // 10. Spatially interpolated bad recods from the given valid records
+        if (parsedCsvData.isValidData) {
+            ContentUtils.updateElementContent("delimiter", parsedCsvData.delimiter); // 2. Update html content for delimiter
+            ContentUtils.updateElementContent("hasHeaderRow", parsedCsvData.hasHeaderRow); // 3. Update html content for has header row
+            ContentUtils.updateElementContent("fileSize", ContentUtils.humanReadableFileSize(this.file.size)); // 4. Update html content for file size
+            ContentUtils.updateElementContent("totalRecords", parsedCsvData.records.length); // 5. Update html content for total number of records count
+            ContentUtils.renderTable("Input Records", "inputCsvTable", parsedCsvData.records, parsedCsvData.columns); // 6. Update html content for input records table
+            let badRecords = Calculate.findBadRecords(parsedCsvData.records); // 7. Filter the bad records when the value field is zero
+            ContentUtils.updateElementContent("badRecords", badRecords.length); // 8. Update html content for number of bad recods count
+            ContentUtils.renderTable("Bad Records", "badCsvTable", badRecords, parsedCsvData.columns); // 9. Update html content for bad recods table
+            this.interpolate(parsedCsvData.records, badRecords, parsedCsvData.columns); // 10. Spatially interpolated bad recods from the given valid records
+        } else {
+            ContentUtils.updateElementContent("invalidData", "The uploaded file contains either missing data or invalid data! Please check the file and upload again!!");
+        }
     }
 
     /**
@@ -62,6 +66,7 @@ class FileLoader {
         ContentUtils.updateElementContent("inputCsvTable", "");
         ContentUtils.updateElementContent("badCsvTable", "");
         ContentUtils.updateElementContent("interpolatedCsvTable", "");
+        ContentUtils.updateElementContent("invalidData", "");
         this.file = null;
         this.csvReader = null;
     }
