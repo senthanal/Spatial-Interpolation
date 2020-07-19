@@ -15,6 +15,11 @@ section {
     flex-flow: row wrap;
 }
 
+section>h3,
+section>h4 {
+    margin: 0;
+}
+
 section>article {
     flex: 1 100%;
     padding: 10px;
@@ -30,7 +35,7 @@ section>article>div>form {
     padding: 10px 0;
 }
 
-section>#invalidData{
+section>#invalidData {
     color: red;
     padding: 10px;
 }

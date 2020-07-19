@@ -50,6 +50,7 @@ class ReaderCsv {
             });
             csvData = Object.assign(csvData, { // Check for insufficient data in a row
                 isValidData: csvData.records.indexOf(false) === -1 &&
+                    csvData.records.map((row) => row.join("").replace(/[-|+|.]/g, "")).filter((row) => isNaN(row) || /e/g.test(row)).length === 0 && // Check for not valid numbers
                     new Set(csvData.records.map((row) => row.slice(0, 2).join(","))).size === csvData.records.length // Check for duplicated location(coordinates)
             });
         }
