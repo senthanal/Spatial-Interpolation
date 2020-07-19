@@ -41,8 +41,9 @@ class ReaderCsv {
                 records: resultRows.slice(1)
                     .filter((row) => /^\s*$/.test(row) === false) // Allow only non empty lines
                     .map((row) => {
-                        let split = row.split(splitRegEx);
-                        return split.length !== 3 ? false : row.split(splitRegEx).map((data) => { // Mark row with insufficient data as false
+                        let trimmedRow = row.trimStart().trimEnd();
+                        let split = trimmedRow.split(splitRegEx);
+                        return split.length !== 3 ? false : trimmedRow.split(splitRegEx).map((data) => { // Mark row with insufficient data as false
                             return isNaN(Number(data.trim())) ? data.trim() : Number(data.trim()); // Parse values from string to number type
                         });
                     })
