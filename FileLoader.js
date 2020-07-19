@@ -49,4 +49,20 @@ class FileLoader {
         let finalRecords = [...new Set([...records, ...interpolatedRecords])]; // 4. Update the interpolated values into the original records
         ContentUtils.renderTable("Interpolated Records", "interpolatedCsvTable", finalRecords, headerColumns); // 5. Print the final interpolated recods
     }
+
+    /**
+     * Reset the input form and all the relevant fields
+     */
+    resetFormContent() {
+        ContentUtils.updateElementContent("delimiter", "?");
+        ContentUtils.updateElementContent("hasHeaderRow", "?");
+        ContentUtils.updateElementContent("fileSize", 0);
+        ContentUtils.updateElementContent("totalRecords", 0);
+        ContentUtils.updateElementContent("badRecords", 0);
+        ContentUtils.updateElementContent("inputCsvTable", "");
+        ContentUtils.updateElementContent("badCsvTable", "");
+        ContentUtils.updateElementContent("interpolatedCsvTable", "");
+        this.file = null;
+        this.csvReader = null;
+    }
 }
